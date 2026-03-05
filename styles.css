@@ -1,0 +1,19 @@
+.container {
+  margin: 200px auto;
+  width: 200px;
+}
+
+.display {
+  border: 2px solid grey;
+  text-align: right;
+  padding: 0 10px;
+}
+
+.numbers {
+  display: flex;
+  flex-wrap: wrap;
+}
+.numbers button {
+  width: 25%;
+  aspect-ratio: 1/1;
+}
