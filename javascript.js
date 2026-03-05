@@ -2,6 +2,7 @@ let num1;
 let num2;
 let operator;
 let result;
+let keypad = document.querySelector(".keypad");
 
 
 
@@ -33,3 +34,7 @@ function operate(operator, a, b) {
       return divide(a, b);
   }
 }
+
+keypad.addEventListener("click", (e) => {
+  console.log(e.target);
+})
