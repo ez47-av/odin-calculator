@@ -1,10 +1,11 @@
-let prevNum = "";
+let prevNum = "0";
 let nextNum = "";
-let operator;
-let result = 0;
+let operator = "";
+let result = "";
 let wasCalced = false;
 let keypad = document.querySelector(".keypad");
 let display = document.querySelector(".display-value");
+display.textContent = prevNum;
 
 
 function add(a, b) {
@@ -66,22 +67,23 @@ keypad.addEventListener("click", (e) => {
       wasCalced = false;
       break;
     case e.target.classList.contains("operator"):
-      operator = e.target.dataset.value;
-
       // user inputs multiple numbers without pressing equal, calc first
-      if (!wasCalced && prevNum) {
+      // checking for nextNum presents it calcing if user changes their mind on operator
+      if (!wasCalced && operator && nextNum) {
         calculate(operator, prevNum, nextNum)
         nextNum = "";
+        operator = e.target.dataset.value;
         break;
       }
 
-      // for the first expression, otherwise prevNum will always be the result
-      if (!result) {
+      // for the first expression, otherwise will always break above. if no nextNum, prevNum is just 0 (user hits operand immediately)
+      if (nextNum && result === "") {
         prevNum = nextNum;
-      } 
-
+      }
+      
       nextNum = "";
-      console.log(`prevNum ${prevNum} and nextNum ${nextNum}`);
+      operator = e.target.dataset.value;
+      console.log(`Not calced: prevNum ${prevNum} and nextNum ${nextNum}`);
 
       break;
     case e.target.classList.contains("equal"):
