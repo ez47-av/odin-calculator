@@ -30,13 +30,20 @@ function operate(o, a, b) {
     case "multiply":
       return multiply(a, b);
     case "divide":
-      return divide(a, b);
+      return b === 0 ? "Error" : divide(a, b);
   }
 }
 
 function calculate(o, a, b) {
   console.log(`Expression is ${prevNum} ${operator} ${nextNum}`)
-  prevNum = operate(o, +a, +b);;
+  prevNum = operate(o, +a, +b);
+
+  if (prevNum === "Error") {
+    reset();
+    updateDisplay("Error");
+    return;
+  }
+
   updateDisplay(prevNum);
   console.log(`PrevNum now ${prevNum} and nextNum now ${nextNum}`);
 
@@ -96,7 +103,6 @@ keypad.addEventListener("click", (e) => {
       break;
     case e.target.classList.contains("plus-minus"):
       if (nextNum.charAt(0) === "-") {
-        console.log("NextNum is negative")
         nextNum = nextNum.substring(1);
         updateDisplay(nextNum);
       } else {
