@@ -35,9 +35,10 @@ function operate(o, a, b) {
 }
 
 function calculate(o, a, b) {
+  console.log(`Expression is ${prevNum} ${operator} ${nextNum}`)
   prevNum = operate(o, +a, +b);;
   updateDisplay(prevNum);
-  console.log(`PrevNum now ${prevNum} and nextNum now ${nextNum}  `);
+  console.log(`PrevNum now ${prevNum} and nextNum now ${nextNum}`);
 
   wasCalced = true;
 }
@@ -92,6 +93,16 @@ keypad.addEventListener("click", (e) => {
       break;
     case e.target.classList.contains("clear"):
       reset();
+      break;
+    case e.target.classList.contains("plus-minus"):
+      if (nextNum.charAt(0) === "-") {
+        console.log("NextNum is negative")
+        nextNum = nextNum.substring(1);
+        updateDisplay(nextNum);
+      } else {
+        nextNum = "-" + nextNum;
+        updateDisplay(nextNum);
+      }
       break;
     default:
       console.log("Clicked a button not assigned yet.")
