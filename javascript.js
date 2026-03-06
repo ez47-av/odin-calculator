@@ -64,16 +64,19 @@ function reset() {
 reset();
 
 keypad.addEventListener("click", (e) => {
-  // the user can only chain expressions if they click an operator, so just reset after equal is clicked
-  if (equalPressed && !e.target.classList.contains("operator")) {
+  // the user can only chain expressions if they click an operator or equal again, so just reset after equal is clicked
+  if (equalPressed && !e.target.classList.contains("operator") && 
+                        !e.target.classList.contains("equal")) {
     console.log("Starting new expression");
     reset();
   }
 
   switch (true) {
     case e.target.classList.contains("number"):
-      if (!nextNum.startsWith("0.")) {
-        if (nextNum.startsWith("0") || nextNum.startsWith("-0")) {
+
+      // removes redundant zeroes (ex 000001 or -01)
+      if (nextNum.startsWith("0") || nextNum.startsWith("-0")) {
+        if (!nextNum.startsWith("0.") && !nextNum.startsWith("-0.")) {
           console.log("Removing redundant 0");
           nextNum = nextNum.replace("0", "")
         }
@@ -90,7 +93,7 @@ keypad.addEventListener("click", (e) => {
       if (!equalPressed && operator != "" && nextNum != "") {
         console.log("Chaining operators");
         calculate(operator, prevNum, nextNum)
-        nextNum = "0";
+        nextNum = "";
         equalPressed = false;
         operator = e.target.dataset.value;
         break;
