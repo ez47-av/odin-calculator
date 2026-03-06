@@ -1,11 +1,9 @@
-let prevNum = null;
-let nextNum = "";
-let operator = "";
-let wasCalced = false;
+let prevNum;
+let nextNum;
+let operator;
+let wasCalced;
 let keypad = document.querySelector(".keypad");
 let display = document.querySelector(".display-value");
-display.textContent = 0;
-
 
 function add(a, b) {
   return a + b;
@@ -48,6 +46,16 @@ function updateDisplay(num) {
   display.textContent = num;
 }
 
+function reset() {
+  display.textContent = 0;
+  prevNum = null;
+  nextNum = "";
+  operator = "";
+  wasCalced = false;
+}
+
+reset();
+
 keypad.addEventListener("click", (e) => {
   switch (true) {
     case e.target.classList.contains("number"):
@@ -81,6 +89,12 @@ keypad.addEventListener("click", (e) => {
       if (operator != "") {
         calculate(operator, prevNum, nextNum);
       }
+      break;
+    case e.target.classList.contains("clear"):
+      reset();
+      break;
+    default:
+      console.log("Clicked a button not assigned yet.")
       break;
   }
 
