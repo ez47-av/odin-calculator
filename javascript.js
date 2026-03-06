@@ -90,13 +90,11 @@ keypad.addEventListener("click", (e) => {
       // user chains multiple expressions without pressing equal, calc first
       // check for operator or else it will try to calc before second operand is entered
       // check for nextNum to prevent calc if user changes their mind on operator
-      if (!equalPressed && operator != "" && nextNum != "") {
+      console.log(nextNum);
+      
+      if (!equalPressed && operator && nextNum !== "") {
         console.log("Chaining operators");
-        calculate(operator, prevNum, nextNum)
-        nextNum = "";
-        equalPressed = false;
-        operator = e.target.dataset.value;
-        break;
+        calculate(operator, prevNum, nextNum);
       }
 
       // only ever for the first expression. if no nextNum, prevNum is just 0 (means user hits operand immediately)
@@ -154,6 +152,7 @@ keypad.addEventListener("click", (e) => {
         if (nextNum.length >= 1) {
           updateDisplay(nextNum);
         } else {
+          nextNum = "";
           updateDisplay("0");
         }
       }
