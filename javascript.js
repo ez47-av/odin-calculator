@@ -1,7 +1,7 @@
 let prevNum;
 let nextNum;
 let operator;
-let wasCalced;
+let equalPressed;
 let keypad = document.querySelector(".keypad");
 let display = document.querySelector(".display-value");
 
@@ -45,9 +45,6 @@ function calculate(o, a, b) {
   }
 
   updateDisplay(prevNum);
-  console.log(`PrevNum now ${prevNum} and nextNum now ${nextNum}`);
-
-  wasCalced = true;
 }
 
 function updateDisplay(num) {
@@ -59,7 +56,7 @@ function reset() {
   prevNum = null;
   nextNum = "";
   operator = "";
-  wasCalced = false;
+  equalPressed = false;
 }
 
 reset();
@@ -67,18 +64,24 @@ reset();
 keypad.addEventListener("click", (e) => {
   switch (true) {
     case e.target.classList.contains("number"):
+      if (equalPressed) {
+        console.log("Starting new expression");
+        reset();
+      }
+
       nextNum += e.target.dataset.value;
       console.log(`prevNum ${prevNum} and nextNum ${nextNum}`);
       updateDisplay(nextNum);
-      wasCalced = false;
       break;
     case e.target.classList.contains("operator"):
       // user chains multiple expressions without pressing equal, calc first
       // check for operator or else it will try to calc before second operand is entered
       // check for nextNum to prevent calc if user changes their mind on operator
-      if (!wasCalced && operator != "" && nextNum != "") {
+      if (!equalPressed && operator != "" && nextNum != "") {
+        console.log("Chaining operators");
         calculate(operator, prevNum, nextNum)
         nextNum = "";
+        equalPressed = false;
         operator = e.target.dataset.value;
         break;
       }
@@ -89,13 +92,15 @@ keypad.addEventListener("click", (e) => {
       }
       
       nextNum = "";
+      equalPressed = false;
       operator = e.target.dataset.value;
-      console.log(`Not calced: prevNum ${prevNum} and nextNum ${nextNum}`);
+      console.log("Waiting for second operand");
 
       break;
     case e.target.classList.contains("equal"):
       if (operator != "") {
         calculate(operator, prevNum, nextNum);
+        equalPressed = true;
       }
       break;
     case e.target.classList.contains("clear"):
