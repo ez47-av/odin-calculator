@@ -37,7 +37,7 @@ function operate(o, a, b) {
 function calculate(o, a, b) {
   console.log(`Expression is ${prevNum} ${operator} ${nextNum}`)
   // toPrecision will prevent trailing decimals due to floating point math
-  prevNum = parseFloat(operate(o, +a, +b).toPrecision(12));
+  prevNum = operate(o, +a, +b);
 
   if (prevNum === "Error") {
     reset();
@@ -45,6 +45,7 @@ function calculate(o, a, b) {
     return;
   }
 
+  prevNum = parseFloat((prevNum).toPrecision(12));
   updateDisplay(prevNum);
 }
 
@@ -70,6 +71,13 @@ keypad.addEventListener("click", (e) => {
         reset();
       }
 
+      if (!nextNum.startsWith("0.")) {
+        if (nextNum.startsWith("0") || nextNum.startsWith("-0")) {
+          console.log("Removing redundant 0");
+          nextNum = nextNum.replace("0", "")
+        }
+      }
+      
       nextNum += e.target.dataset.value;
       console.log(`prevNum ${prevNum} and nextNum ${nextNum}`);
       updateDisplay(nextNum);
@@ -107,23 +115,44 @@ keypad.addEventListener("click", (e) => {
       reset();
       break;
     case e.target.classList.contains("plus-minus"):
-      if (nextNum.charAt(0) === "-") {
-        nextNum = nextNum.substring(1);
-        updateDisplay(nextNum);
-      } else {
-        nextNum = "-" + nextNum;
-        updateDisplay(nextNum);
-      }
-      break;
-    case e.target.classList.contains("decimal"):
-      if (!nextNum.includes(".")) {
+      if (!equalPressed) {
         if (nextNum === "") {
           nextNum = "0";
         }
 
-        nextNum += "."
-        updateDisplay(nextNum);
+        if (nextNum.charAt(0) === "-") {
+          nextNum = nextNum.substring(1);
+          updateDisplay(nextNum);
+        } else {
+          nextNum = "-" + nextNum;
+          updateDisplay(nextNum);
+        }
       }
+      break;
+    case e.target.classList.contains("decimal"):
+      if (!equalPressed) {
+        if (!nextNum.includes(".")) {
+          if (nextNum === "") {
+            nextNum = "0";
+          }
+          
+          nextNum += "."
+          updateDisplay(nextNum);
+        }
+      }
+      break;
+    case e.target.classList.contains("back"):
+      if (!equalPressed && nextNum) {
+        console.log("Deleting");
+        nextNum = nextNum.slice(0, -1);
+
+        if (nextNum.length >= 1) {
+          updateDisplay(nextNum);
+        } else {
+          updateDisplay("0");
+        }
+      }
+      
       break;
     default:
       console.log("Clicked a button not assigned yet.")
