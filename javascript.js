@@ -36,7 +36,8 @@ function operate(o, a, b) {
 
 function calculate(o, a, b) {
   console.log(`Expression is ${prevNum} ${operator} ${nextNum}`)
-  prevNum = operate(o, +a, +b);
+  // toPrecision will prevent trailing decimals due to floating point math
+  prevNum = parseFloat(operate(o, +a, +b).toPrecision(12));
 
   if (prevNum === "Error") {
     reset();
@@ -52,7 +53,7 @@ function updateDisplay(num) {
 }
 
 function reset() {
-  display.textContent = 0;
+  display.textContent = "0";
   prevNum = null;
   nextNum = "";
   operator = "";
@@ -88,14 +89,13 @@ keypad.addEventListener("click", (e) => {
 
       // only ever for the first expression. if no nextNum, prevNum is just 0 (means user hits operand immediately)
       if (prevNum === null) {
-        prevNum = nextNum != "" ? nextNum : 0
+        prevNum = nextNum != "" ? nextNum : 0;
       }
       
       nextNum = "";
       equalPressed = false;
       operator = e.target.dataset.value;
       console.log("Waiting for second operand");
-
       break;
     case e.target.classList.contains("equal"):
       if (operator != "") {
@@ -112,6 +112,16 @@ keypad.addEventListener("click", (e) => {
         updateDisplay(nextNum);
       } else {
         nextNum = "-" + nextNum;
+        updateDisplay(nextNum);
+      }
+      break;
+    case e.target.classList.contains("decimal"):
+      if (!nextNum.includes(".")) {
+        if (nextNum === "") {
+          nextNum = "0";
+        }
+
+        nextNum += "."
         updateDisplay(nextNum);
       }
       break;
