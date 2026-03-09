@@ -50,11 +50,13 @@ button {
   background: linear-gradient(to bottom right, var(--highlight), var(--med-green) 30%); 
 }
 
-button:hover {
+button:hover, 
+button:focus {
   background: linear-gradient(to bottom right, white, #AACDDC 60%); 
 }
 
 .active,
-.active:hover {
+.active:hover,
+.active:focus {
   background: linear-gradient(to bottom right, white, yellow 60%); 
 }
