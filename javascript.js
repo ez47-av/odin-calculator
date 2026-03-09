@@ -46,7 +46,7 @@ function calculate(o, a, b) {
   }
 
   // toPrecision will prevent trailing decimals due to floating point math
-  prevNum = parseFloat((prevNum).toPrecision(12));
+  prevNum = parseFloat((prevNum).toPrecision(12)).toString();
   updateDisplay(prevNum);
 }
 
@@ -68,6 +68,14 @@ function checkNextNum() {
   }
 }
 
+function changePlusMinus(num) {
+  if (num.charAt(0) === "-") {
+    return num.substring(1);
+  } else {
+    return "-" + num;
+  }
+}
+
 reset();
 
 keypad.addEventListener("click", (e) => {
@@ -77,7 +85,8 @@ keypad.addEventListener("click", (e) => {
   
   // resets if the user is not chaining an expression
   if (equalPressed && !e.target.classList.contains("operator") && 
-                        !e.target.classList.contains("equal")) {
+                        !e.target.classList.contains("equal") &&
+                        !e.target.classList.contains("plus-minus")){
     console.log("Starting new expression");
     reset();
   }
@@ -132,15 +141,18 @@ keypad.addEventListener("click", (e) => {
       break;
 
     case e.target.classList.contains("plus-minus"):
+      // changes the result
+      if (equalPressed) {
+        console.log("Turning result positive or negative")
+        prevNum = changePlusMinus(prevNum);
+        updateDisplay(prevNum);
+        break;
+      } 
+
       // prevent the user from calculating with just "-", which returns a NaN
       checkNextNum();
 
-      if (nextNum.charAt(0) === "-") {
-        nextNum = nextNum.substring(1);
-      } else {
-        nextNum = "-" + nextNum;
-      }
-      
+      nextNum = changePlusMinus(nextNum);
       updateDisplay(nextNum);
       break;
 
