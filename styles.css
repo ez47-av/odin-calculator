@@ -8,7 +8,8 @@
 .container {
   margin: 20% auto;
   padding: 20px 10px;
-  width: 500px;
+  width: 90%;
+  max-width: 400px;
   border: 2px solid rgb(199, 198, 198);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 8px;
@@ -53,6 +54,11 @@ button {
 button:hover, 
 button:focus {
   background: linear-gradient(to bottom right, white, #AACDDC 60%); 
+}
+
+button:active {
+  transform: translateY(2px);
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.2);
 }
 
 .active,
