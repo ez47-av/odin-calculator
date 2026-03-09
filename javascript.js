@@ -62,6 +62,12 @@ function reset() {
   equalPressed = false;
 }
 
+function checkNextNum() {
+  if (nextNum === "") {
+    nextNum = "0";
+  }
+}
+
 reset();
 
 keypad.addEventListener("click", (e) => {
@@ -69,8 +75,7 @@ keypad.addEventListener("click", (e) => {
     selectedOperator.classList.remove("active");
   }
   
-
-  // the user can only chain expressions if they click an operator or equal again, so just reset after equal is clicked
+  // resets if the user is not chaining an expression
   if (equalPressed && !e.target.classList.contains("operator") && 
                         !e.target.classList.contains("equal")) {
     console.log("Starting new expression");
@@ -79,19 +84,18 @@ keypad.addEventListener("click", (e) => {
 
   switch (true) {
     case e.target.classList.contains("number"):
-
-      // removes redundant zeroes (ex 000001 or -01)
+      // removes redundant zeroes (ex 000001, -01, 00.1)
       if (nextNum.startsWith("0") || nextNum.startsWith("-0")) {
         if (!nextNum.startsWith("0.") && !nextNum.startsWith("-0.")) {
           console.log("Removing redundant 0");
           nextNum = nextNum.replace("0", "")
         }
       }
-      
       nextNum += e.target.dataset.value;
       console.log(`prevNum ${prevNum} and nextNum ${nextNum}`);
       updateDisplay(nextNum);
       break;
+
     case e.target.classList.contains("operator"):
       // user chains multiple expressions without pressing equal, calc first
       // check for operator or else it will try to calc before second operand is entered
@@ -105,9 +109,11 @@ keypad.addEventListener("click", (e) => {
       if (prevNum === null) {
         prevNum = nextNum != "" ? nextNum : 0;
       }
-      
+
+      // highlights the button for feedback
       selectedOperator = e.target;
       e.target.classList.add("active");
+
       nextNum = "";
       equalPressed = false;
       operator = e.target.dataset.value;
@@ -127,24 +133,20 @@ keypad.addEventListener("click", (e) => {
 
     case e.target.classList.contains("plus-minus"):
       // prevent the user from calculating with just "-", which returns a NaN
-      if (nextNum === "") {
-        nextNum = "0";
-      }
+      checkNextNum();
 
       if (nextNum.charAt(0) === "-") {
         nextNum = nextNum.substring(1);
       } else {
         nextNum = "-" + nextNum;
       }
+      
       updateDisplay(nextNum);
       break;
 
     case e.target.classList.contains("decimal"):
       if (!nextNum.includes(".")) {
-        if (nextNum === "") {
-          nextNum = "0";
-        }
-        
+        checkNextNum();
         nextNum += "."
         updateDisplay(nextNum);
       }
@@ -165,8 +167,6 @@ keypad.addEventListener("click", (e) => {
       break;
 
     default:
-      console.log("Clicked a button not assigned yet.")
       break;
   }
-
 })
