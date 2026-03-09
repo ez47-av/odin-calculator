@@ -36,7 +36,6 @@ function operate(o, a, b) {
 
 function calculate(o, a, b) {
   console.log(`Expression is ${prevNum} ${operator} ${nextNum}`)
-  // toPrecision will prevent trailing decimals due to floating point math
   prevNum = operate(o, +a, +b);
 
   if (prevNum === "Error") {
@@ -45,6 +44,7 @@ function calculate(o, a, b) {
     return;
   }
 
+  // toPrecision will prevent trailing decimals due to floating point math
   prevNum = parseFloat((prevNum).toPrecision(12));
   updateDisplay(prevNum);
 }
@@ -90,8 +90,6 @@ keypad.addEventListener("click", (e) => {
       // user chains multiple expressions without pressing equal, calc first
       // check for operator or else it will try to calc before second operand is entered
       // check for nextNum to prevent calc if user changes their mind on operator
-      console.log(nextNum);
-      
       if (!equalPressed && operator && nextNum !== "") {
         console.log("Chaining operators");
         calculate(operator, prevNum, nextNum);
