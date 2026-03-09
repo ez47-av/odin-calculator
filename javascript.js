@@ -121,7 +121,7 @@ keypad.addEventListener("click", (e) => {
       break;
 
     case e.target.classList.contains("equal"):
-      if (operator != "") {
+      if (operator != "" && nextNum != "") {
         calculate(operator, prevNum, nextNum);
         equalPressed = true;
       }
