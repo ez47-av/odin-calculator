@@ -1,19 +1,57 @@
+:root {
+  --dark-green: #96A78D;
+  --med-green: #B6CEB4;
+  --light-green: #D9E9CF;
+  --highlight: #e5f1e0;
+}
+
 .container {
-  margin: 200px auto;
-  width: 300px;
+  margin: 20% auto;
+  padding: 20px 10px;
+  width: 500px;
+  border: 2px solid rgb(199, 198, 198);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  background: linear-gradient(to bottom, #F0F0F0, #dadada 90%);
 }
 
 .display {
-  border: 2px solid grey;
+  font-size: 30px;
+  background: linear-gradient(to bottom right, white, #f2ffff);
+  border: 2px solid rgb(167, 167, 167);
+  border-radius: 8px;
   text-align: right;
   padding: 0 10px;
+  margin-bottom: 30px;
 }
 
-.numbers {
+.keypad {
   display: flex;
   flex-wrap: wrap;
+  gap: 2px;
 }
-.numbers button {
-  width: 20%;
+
+button {
+  font-size: 20px;
+  background: linear-gradient(to bottom right, var(--highlight), var(--dark-green) 30%); 
+  /* background-color: #96A78D; */
+  width: calc(20% - 2px);
   aspect-ratio: 1/1;
+  border-color: #96A78D;
+  border-radius: 4px;
+  
+}
+
+.number {
+  background: linear-gradient(to bottom right, var(--highlight), var(--light-green) 30%); 
+}
+
+.operator, 
+.decimal, 
+.equal {
+  background: linear-gradient(to bottom right, var(--highlight), var(--med-green) 30%); 
+}
+
+button:hover {
+  background: linear-gradient(to bottom right, white, #AACDDC 60%); 
 }
