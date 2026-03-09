@@ -52,7 +52,7 @@ button {
 }
 
 button:hover, 
-button:focus {
+button:focus-visible {
   background: linear-gradient(to bottom right, white, #AACDDC 60%); 
 }
 
@@ -63,6 +63,6 @@ button:active {
 
 .active,
 .active:hover,
-.active:focus {
+.active:focus-visible {
   background: linear-gradient(to bottom right, white, yellow 60%); 
 }
