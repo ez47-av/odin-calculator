@@ -34,12 +34,10 @@
 button {
   font-size: 20px;
   background: linear-gradient(to bottom right, var(--highlight), var(--dark-green) 30%); 
-  /* background-color: #96A78D; */
   width: calc(20% - 2px);
   aspect-ratio: 1/1;
   border-color: #96A78D;
   border-radius: 4px;
-  
 }
 
 .number {
@@ -54,4 +52,9 @@ button {
 
 button:hover {
   background: linear-gradient(to bottom right, white, #AACDDC 60%); 
+}
+
+.active,
+.active:hover {
+  background: linear-gradient(to bottom right, white, yellow 60%); 
 }

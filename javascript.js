@@ -4,6 +4,7 @@ let operator;
 let equalPressed;
 let keypad = document.querySelector(".keypad");
 let display = document.querySelector(".display-value");
+let selectedOperator;
 
 function add(a, b) {
   return a + b;
@@ -64,6 +65,11 @@ function reset() {
 reset();
 
 keypad.addEventListener("click", (e) => {
+  if (selectedOperator) {
+    selectedOperator.classList.remove("active");
+  }
+  
+
   // the user can only chain expressions if they click an operator or equal again, so just reset after equal is clicked
   if (equalPressed && !e.target.classList.contains("operator") && 
                         !e.target.classList.contains("equal")) {
@@ -95,11 +101,13 @@ keypad.addEventListener("click", (e) => {
         calculate(operator, prevNum, nextNum);
       }
 
-      // only ever for the first expression. if no nextNum, prevNum is just 0 (means user hits operand immediately)
+      // only ever for the first expression
       if (prevNum === null) {
         prevNum = nextNum != "" ? nextNum : 0;
       }
       
+      selectedOperator = e.target;
+      e.target.classList.add("active");
       nextNum = "";
       equalPressed = false;
       operator = e.target.dataset.value;
