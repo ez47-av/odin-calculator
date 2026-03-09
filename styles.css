@@ -66,3 +66,20 @@ button:active {
 .active:focus-visible {
   background: linear-gradient(to bottom right, white, yellow 60%); 
 }
+
+a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(20% - 2px);
+  border-radius: 4px;
+}
+
+a:hover {
+  background-color: rgba(255, 255, 255, 0.397);
+}
+
+img {
+  width: 80%;
+  height: auto;
+}
