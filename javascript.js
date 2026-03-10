@@ -36,7 +36,6 @@ function operate(o, a, b) {
 }
 
 function calculate(o, a, b) {
-  console.log(`Expression is ${prevNum} ${operator} ${nextNum}`)
   prevNum = operate(o, +a, +b);
 
   if (prevNum === "Error") {
@@ -87,7 +86,6 @@ keypad.addEventListener("click", (e) => {
   if (equalPressed && !e.target.classList.contains("operator") && 
                         !e.target.classList.contains("equal") &&
                         !e.target.classList.contains("plus-minus")){
-    console.log("Starting new expression");
     reset();
   }
 
@@ -96,12 +94,10 @@ keypad.addEventListener("click", (e) => {
       // removes redundant zeroes (ex 000001, -01, 00.1)
       if (nextNum.startsWith("0") || nextNum.startsWith("-0")) {
         if (!nextNum.startsWith("0.") && !nextNum.startsWith("-0.")) {
-          console.log("Removing redundant 0");
           nextNum = nextNum.replace("0", "")
         }
       }
       nextNum += e.target.dataset.value;
-      console.log(`prevNum ${prevNum} and nextNum ${nextNum}`);
       updateDisplay(nextNum);
       break;
 
@@ -110,7 +106,6 @@ keypad.addEventListener("click", (e) => {
       // check for operator or else it will try to calc before second operand is entered
       // check for nextNum to prevent calc if user changes their mind on operator
       if (!equalPressed && operator && nextNum !== "") {
-        console.log("Chaining operators");
         calculate(operator, prevNum, nextNum);
       }
 
@@ -126,7 +121,6 @@ keypad.addEventListener("click", (e) => {
       nextNum = "";
       equalPressed = false;
       operator = e.target.dataset.value;
-      console.log("Waiting for second operand");
       break;
 
     case e.target.classList.contains("equal"):
@@ -143,7 +137,6 @@ keypad.addEventListener("click", (e) => {
     case e.target.classList.contains("plus-minus"):
       // changes the result
       if (equalPressed) {
-        console.log("Turning result positive or negative")
         prevNum = changePlusMinus(prevNum);
         updateDisplay(prevNum);
         break;
@@ -166,7 +159,6 @@ keypad.addEventListener("click", (e) => {
 
     case e.target.classList.contains("back"):
       if (nextNum) {
-        console.log("Deleting");
         nextNum = nextNum.slice(0, -1);
 
         if (nextNum.length >= 1) {
